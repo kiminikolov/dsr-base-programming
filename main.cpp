@@ -3,7 +3,25 @@
 using namespace std;
 
 
-// Декларация на функциите
+const unsigned short MAX_ESTATE_COUNT = 100;
+unsigned short estate_count = 0;
+
+
+struct Estate {
+    int reference_number;
+    string broker_name;
+    string estate_type;
+    string estate_location;
+    string exposure;
+    double price;
+    double total_area;
+    int room_count;
+    int floor;
+    string status;
+};
+
+
+// Прототипи на функциите
 void print_starting_menu();
 
 void add_one_new_estate();
@@ -18,6 +36,9 @@ void sort_estate_array();
 
 void export_estate_array_to_file();
 void import_estate_array_from_file();
+
+
+Estate estates_array[MAX_ESTATE_COUNT];
 
 
 int main() {
@@ -80,6 +101,8 @@ int main() {
                 cin >> user_input;
 
                 switch (user_input) {
+                    case 0:
+                        return 0;
                     case 1:
                         export_estate_array_to_file();
                         break;
@@ -93,14 +116,14 @@ int main() {
             default:
                 cout << "Въведете валидна команда." << endl;
         }
-
+        print_starting_menu();
         cin >> user_input;
     }
-
 
     return 0;
 }
 
+// Декларация на функциите
 void print_starting_menu() {
     cout << "\t\t\tАгенция за недвижими имоти\t\t\t" << endl;
     cout << "[0] Затваряне на програмата" << endl;
@@ -111,8 +134,41 @@ void print_starting_menu() {
     cout << "[5] Управление на файл" << endl;
 }
 
+Estate create_estate() {
+    int reference_number, room_count, floor;
+    string broker_name, estate_type, estate_location, exposure, status;
+    double price, total_area;
+
+    cout << "Референтен номер: " << endl;
+    cin >> reference_number;
+    cout << "Брокер: " << endl;
+    cin >> broker_name;
+    cout << "Тип: " << endl;
+    cin >> estate_type;
+    cout << "Локация: " << endl;
+    cin >> estate_location;
+    cout << "Изложение: " << endl;
+    cin >> exposure;
+    cout << "Цена: " << endl;
+    cin >> price;
+    cout << "Площ: " << endl;
+    cin >> total_area;
+    cout << "Брой стаи: " << endl;
+    cin >> room_count;
+    cout << "Етаж: " << endl;
+    cin >> floor;
+    cout << "Статус: " << endl;
+    cin >> status;
+
+    return Estate(reference_number, broker_name,estate_type, estate_location, exposure, price, total_area, room_count, floor, status);
+}
+
+
 void add_one_new_estate() {
-    pass;
+    const Estate new_estate = create_estate();
+
+    estates_array[estate_count] = new_estate;
+    estate_count++;
 }
 
 void add_list_of_estate() {
