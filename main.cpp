@@ -20,6 +20,20 @@ struct Estate {
     char status[50];
 };
 
+void print_estate_info(Estate estate) {
+    cout << "№" << estate.reference_number
+         << " Брокер: " << estate.broker_name
+         << " Тип: " << estate.estate_type
+         << " Локация: " << estate.estate_location
+         << " Изложение: " << estate.exposure
+         << " Цена: " << estate.price
+         << " Площ: " << estate.total_area
+         << " Стаи: " << estate.room_count
+         << " Етаж: " << estate.floor
+         << " Статус: " << estate.status
+         << endl;
+}
+
 
 // Прототипи на функциите
 void print_starting_menu();
@@ -29,8 +43,8 @@ void add_list_of_estate();
 
 void print_all_estate();
 
-void print_highest_area_estate();
-void print_sold_estate();
+int print_highest_area_estate();
+int print_sold_estate();
 
 void sort_estate_array();
 
@@ -123,6 +137,7 @@ int main() {
     return 0;
 }
 
+
 // Декларация на функциите
 void print_starting_menu() {
     cout << "\t\t\tАгенция за недвижими имоти\t\t\t" << endl;
@@ -133,6 +148,7 @@ void print_starting_menu() {
     cout << "[4] Подреждане на основния масив с имоти, без да се извежда на екрана" << endl;
     cout << "[5] Управление на файл" << endl;
 }
+
 
 Estate create_estate() {
     Estate new_estate = {};
@@ -171,11 +187,12 @@ void add_one_new_estate() {
     estate_count++;
 }
 
+
 void add_list_of_estate() {
     int n;
 
     do {
-        cout << "Въведете броя на имоти, които искате да добавите:" << endl;
+        cout << "Въведете броя на имоти, които искате да добавите: " << endl;
         cin >> n;
 
         if (estate_count == MAX_ESTATE_COUNT || estate_count + n > MAX_ESTATE_COUNT) {
@@ -188,6 +205,7 @@ void add_list_of_estate() {
     }
 }
 
+
 void print_all_estate() {
     cout << "\t\t\tСписък с имоти:\t\t\t" << endl;
 
@@ -198,17 +216,75 @@ void print_all_estate() {
     cout << endl;
 }
 
-void print_highest_area_estate() {
-    pass;
+
+int print_highest_area_estate() {
+    if (estate_count == 0) {
+        cout << "Няма въведени имоти." << endl;
+        return 0;
+    }
+
+    int max_index = 0;
+
+    for (int i = 1; i < estate_count; i++) {
+        if (estates_array[i].total_area > estates_array[max_index].total_area) {
+            max_index = i;
+        }
+    }
+
+    Estate highest_area_estate = estates_array[max_index];
+
+    cout << "Имотът с най-голяма площ:" << endl;
+    print_estate_info(highest_area_estate);
+    return 0;
 }
 
-void print_sold_estate() {
-    pass;
+
+int print_sold_estate() {
+    if (estate_count == 0) {
+        cout << "Няма въведени имоти." << endl;
+        return 0;
+    }
+
+    bool sold_estate = false;
+
+    for (int i = 0; i < estate_count; i++) {
+        if (strcmp(estates_array[i].status, "Продаден") == 0) {
+            sold_estate = true;
+            print_estate_info(estates_array[i]);
+        }
+    }
+
+    if (!sold_estate) {
+        cout << "Няма продадени имоти" << endl;
+    }
+
+    return 0;
 }
+
 
 void sort_estate_array() {
-    pass;
+    if (estate_count == 0) {
+        cout << "Няма въведени имоти." << endl;
+        return;
+    }
+
+    for (int i = 0; i < estate_count - 1; i++) {1
+
+        bool swapped = false;
+        for (int j = 0; j < estate_count - i - 1; j++) {
+            if (estates_array[j].price > estates_array[j + 1].price) {
+                Estate temp = estates_array[j];
+                estates_array[j] = estates_array[j + 1];
+                estates_array[j + 1] = temp;
+                swapped = true;
+            }
+        }
+        if (!swapped) {
+            break;
+        }
+    }
 }
+
 
 void export_estate_array_to_file() {
     pass;
