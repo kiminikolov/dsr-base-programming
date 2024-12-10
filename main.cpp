@@ -268,7 +268,7 @@ void sort_estate_array() {
         return;
     }
 
-    for (int i = 0; i < estate_count - 1; i++) {1
+    for (int i = 0; i < estate_count - 1; i++) {
 
         bool swapped = false;
         for (int j = 0; j < estate_count - i - 1; j++) {
