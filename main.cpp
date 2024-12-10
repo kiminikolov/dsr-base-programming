@@ -8,16 +8,16 @@ unsigned short estate_count = 0;
 
 
 struct Estate {
-    int reference_number;
-    string broker_name;
-    string estate_type;
-    string estate_location;
-    string exposure;
+    char reference_number[50];
+    char broker_name[50];
+    char estate_type[50];
+    char estate_location[50];
+    char exposure[50];
     double price;
     double total_area;
     int room_count;
     int floor;
-    string status;
+    char status[50];
 };
 
 
@@ -135,32 +135,32 @@ void print_starting_menu() {
 }
 
 Estate create_estate() {
-    int reference_number, room_count, floor;
-    string broker_name, estate_type, estate_location, exposure, status;
-    double price, total_area;
+    Estate new_estate = {};
 
+    cin.ignore();
     cout << "Референтен номер: " << endl;
-    cin >> reference_number;
+    cin.getline(new_estate.reference_number, sizeof(new_estate.reference_number));
     cout << "Брокер: " << endl;
-    cin >> broker_name;
+    cin.getline(new_estate.broker_name, sizeof(new_estate.broker_name));
     cout << "Тип: " << endl;
-    cin >> estate_type;
+    cin.getline(new_estate.estate_type, sizeof(new_estate.estate_type));
     cout << "Локация: " << endl;
-    cin >> estate_location;
+    cin.getline(new_estate.estate_location, sizeof(new_estate.estate_location));
     cout << "Изложение: " << endl;
-    cin >> exposure;
+    cin.getline(new_estate.exposure, sizeof(new_estate.exposure));
     cout << "Цена: " << endl;
-    cin >> price;
+    cin >> new_estate.price;
     cout << "Площ: " << endl;
-    cin >> total_area;
+    cin >> new_estate.total_area;
     cout << "Брой стаи: " << endl;
-    cin >> room_count;
+    cin >> new_estate.room_count;
     cout << "Етаж: " << endl;
-    cin >> floor;
+    cin >> new_estate.floor;
+    cin.ignore();
     cout << "Статус: " << endl;
-    cin >> status;
+    cin.getline(new_estate.status, sizeof(new_estate.status));
 
-    return Estate(reference_number, broker_name,estate_type, estate_location, exposure, price, total_area, room_count, floor, status);
+    return new_estate;
 }
 
 
@@ -172,11 +172,30 @@ void add_one_new_estate() {
 }
 
 void add_list_of_estate() {
-    pass;
+    int n;
+
+    do {
+        cout << "Въведете броя на имоти, които искате да добавите:" << endl;
+        cin >> n;
+
+        if (estate_count == MAX_ESTATE_COUNT || estate_count + n > MAX_ESTATE_COUNT) {
+            cout << "Броят на имотите не трябва да надвишава 100!" << endl;
+        }
+    } while (estate_count == MAX_ESTATE_COUNT || estate_count + n > MAX_ESTATE_COUNT);
+
+    for (int i = 1; i <= n; i++) {
+        add_one_new_estate();
+    }
 }
 
 void print_all_estate() {
-    pass;
+    cout << "\t\t\tСписък с имоти:\t\t\t" << endl;
+
+    for (int i = 0; i < estate_count; i++) {
+        Estate current_estate = estates_array[i];
+        cout << "№" << current_estate.reference_number << " Брокер:" << current_estate.broker_name << " Тип:" << current_estate.estate_type << " Локация:" << current_estate.estate_location << " Изложение:" << current_estate.exposure << " Цена:" << current_estate.price << " Площ:" << current_estate.total_area << " Стаи:" << current_estate.room_count << " Етаж:" << current_estate.floor << " Статус:" << current_estate.status << endl;
+    }
+    cout << endl;
 }
 
 void print_highest_area_estate() {
